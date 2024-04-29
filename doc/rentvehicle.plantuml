@@ -5,10 +5,7 @@ participant GUI
 participant "BLFacade" as BLFacade
 participant "DataAccess" as DataAccess
 participant "EntityManager" as EntityManager
-database "Vehicle Room" as VehicleRoom
-entity "Vehicle Type" as VehicleType
-entity Vehicle
-entity "Rate" as Rate
+participant "VehicleModel" as VehicleModel
 
 GUI -> BLFacade : getOffices()
 activate BLFacade
@@ -37,10 +34,12 @@ DataAccess -> EntityManager : getBrands(Q3)
     Q3: SELECT DISTINCT v.vehicleType.brand FROM Vehicle v
   end note
 
+Customer -> GUI : selects office, model, brand, enDate
+Customer -> GUI: clicks on Search
 GUI -> BLFacade : getAvailableVehicles(office, brand, model, endDate)
 BLFacade -> DataAccess : getAvailableVehicles(office, brand, model, endDate)
 DataAccess -> EntityManager : getAvailableVehicles(Q4)
-  note right
+note right
     Q4: SELECT new VehicleModel(v.licensePlate, v.vehicleType.brand, v.vehicleType.model, t.pricePerDay)
             FROM Vehicle v, Tariff t
             WHERE v.vehicleType.brand = :brand
@@ -49,39 +48,30 @@ DataAccess -> EntityManager : getAvailableVehicles(Q4)
             AND t.office = :office
             AND t.startDate <= :endDate
             AND t.endDate >= :endDate
-  end note
-
-
-GUI -> BLFacade : s,brand,model,fdate
-activate BLFacade
-BLFacade -> DataAccess : register(s,brand,model,fdate)
-activate DataAccess
-DataAccess -> EntityManager : getAvailable(brand,model)
+end note
 activate EntityManager
-EntityManager -> VehicleRoom : find(s)
-activate VehicleRoom
-VehicleRoom --> EntityManager : vehicleRoom
-EntityManager --> DataAccess : vehicleType = getAvailableType(brand,model)
-deactivate VehicleRoom
-EntityManager -> VehicleType : getAvailableType(brand,model)
-activate VehicleType
-VehicleType --> EntityManager : vehicleType
-EntityManager --> DataAccess : vehicle = getAvailable(vehicleType)
-deactivate VehicleType
-DataAccess -> Vehicle : getAvailable(vehicleType)
-activate Vehicle
-loop for each vehicle
-    Vehicle -> Vehicle : getAvailable()
-end
-Vehicle --> DataAccess : vehicle
-deactivate Vehicle
-DataAccess --> BLFacade : vehicle
-deactivate DataAccess
-BLFacade -> VehicleRoom : getRate(vehicleRoom,brand,model,fdate)
-activate VehicleRoom
-VehicleRoom --> BLFacade : rate
-deactivate VehicleRoom
-BLFacade --> GUI : rate
-deactivate BLFacade
+loop for each AVAILABLE vehicle
+EntityManager -> VehicleModel: new (licensePlate, brand, model, pricePerDay)
+end loop
+activate VehicleModel
+deactivate EntityManager
+
+Customer -> GUI: selects vehicleModel, pricePerDay
+Customer -> GUI: clicks on Pay
+GUI -> BLFacade: rentVehicle(vehicleModel, days, vehicle.getPrice()
+BLFacade -> DataAccess: rentVehicle(vehicleModel, days, pricePerDay, currentUser)
+DataAccess -> EntityManager: db.find(Vehicle.class, vehicleModel.getPlate())
+EntityManager --> DataAccess: vehicle
+DataAccess -> Vehicle: setState(RENTED)
+DataAccess -> Renting: r = new(now, endDate, v, pricePerDay*days, client)
+DataAccess -> vehicle: addRenting(r)
+DataAccess -> EntityManager: getTransaction().begin()
+DataAccess -> EntityManager: persist(r)
+DataAccess -> EntityManager: persist(v)
+DataAccess -> EntityManager: getTransaction().commit()
+
+
+
+GUI --> GUI: remove(vehicle)
 
 @enduml
