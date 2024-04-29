@@ -28,7 +28,7 @@
     <ComboBox fx:id="brandComboBox" GridPane.columnIndex="1" GridPane.rowIndex="1" />
     <Label text="Model:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
     <ComboBox fx:id="modelComboBox" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-    <Button text="Search Availability" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+    <Button onAction="#searchAvailability" text="Search Availability" GridPane.columnIndex="4" GridPane.rowIndex="1" />
       <columnConstraints>
          <ColumnConstraints />
          <ColumnConstraints />

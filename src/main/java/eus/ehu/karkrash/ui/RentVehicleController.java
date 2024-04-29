@@ -5,12 +5,15 @@ import eus.ehu.karkrash.domain.Office;
 import eus.ehu.karkrash.model.VehicleModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 public class RentVehicleController {
@@ -58,15 +61,30 @@ public class RentVehicleController {
         setOfficeCombobox();
 
         bl.getModels().forEach(modelComboBox.getItems()::add);
-        bl.getBrands().forEach(modelComboBox.getItems()::add);
+        bl.getBrands().forEach(brandComboBox.getItems()::add);
 
         // Sample data - replace this with data retrieved from your DataAccess class
-        vehicles.add(new VehicleModel("1234ABC", "Audi", "A4", 50.0));
-        vehicles.add(new VehicleModel("5678DEF", "Renault", "Clio", 30.0));
+        // vehicles.add(new VehicleModel("1234ABC", "Audi", "A4", 50.0));
+        // vehicles.add(new VehicleModel("5678DEF", "Renault", "Clio", 30.0));
 
         // Set the data into the TableView
         vehiclesTableView.setItems(vehicles);
 
+    }
+
+    @FXML
+    void searchAvailability(ActionEvent event) {
+        String brand = brandComboBox.getValue();
+        String model = modelComboBox.getValue();
+        Office office = officeComboBox.getValue();
+        LocalDate endDate = endDatePicker.getValue();
+
+        // Call the BL to get the available vehicles
+        List<VehicleModel> availableVehicles = bl.getAvailableVehicles(brand, model, office, endDate);
+
+        // Set the data into the TableView
+        vehicles.clear();
+        vehicles.addAll(availableVehicles);
     }
 
     private void setOfficeCombobox() {

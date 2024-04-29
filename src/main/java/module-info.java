@@ -9,6 +9,8 @@ module eus.ehu.karkrash {
 
     opens eus.ehu.karkrash.model to javafx.base;
     opens eus.ehu.karkrash.domain to org.hibernate.orm.core;
+
+    exports eus.ehu.karkrash.model to org.hibernate.orm.core;
     opens eus.ehu.karkrash.ui to javafx.fxml;
     exports eus.ehu.karkrash.ui;
 }

@@ -2,6 +2,7 @@ package eus.ehu.karkrash.dataAccess;
 
 import eus.ehu.karkrash.configuration.Config;
 import eus.ehu.karkrash.domain.*;
+import eus.ehu.karkrash.model.VehicleModel;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import org.hibernate.boot.MetadataSources;
@@ -215,5 +216,21 @@ public class DataAccess {
 
   public List<String> getBrands() {
     return db.createQuery("SELECT DISTINCT v.vehicleType.brand FROM Vehicle v", String.class).getResultList();
+  }
+
+  public List<VehicleModel> getAvailableVehicles(String brand, String model, Office office, LocalDate endDate) {
+    return db.createQuery("SELECT new eus.ehu.karkrash.model.VehicleModel(v.licensePlate, v.vehicleType.brand, v.vehicleType.model, t.pricePerDay) " +
+            "FROM Vehicle v, Tariff t " +
+            "WHERE v.vehicleType.brand = :brand " +
+            "AND v.vehicleType.model = :model " +
+            "AND v.state = eus.ehu.karkrash.domain.VehicleState.AVAILABLE " +
+            "AND t.office = :office " +
+            "AND t.startDate <= :endDate " +
+            "AND t.endDate >= :endDate", VehicleModel.class)
+            .setParameter("brand", brand)
+            .setParameter("model", model)
+            .setParameter("office", office)
+            .setParameter("endDate", Date.from(endDate.atStartOfDay(ZoneId.systemDefault()).toInstant()))
+            .getResultList();
   }
 }

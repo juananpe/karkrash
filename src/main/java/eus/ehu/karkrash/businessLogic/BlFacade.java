@@ -3,7 +3,9 @@ package eus.ehu.karkrash.businessLogic;
 // import eus.ehu.template.domain.Hello;
 
 import eus.ehu.karkrash.domain.Office;
+import eus.ehu.karkrash.model.VehicleModel;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -15,6 +17,8 @@ public interface BlFacade  {
     List<String> getModels();
 
     List<String> getBrands();
+
+    List<VehicleModel> getAvailableVehicles(String brand, String model, Office office, LocalDate endDate);
 
     // ===== Define the public interface of the BL
 

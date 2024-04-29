@@ -3,7 +3,9 @@ package eus.ehu.karkrash.businessLogic;
 import eus.ehu.karkrash.configuration.Config;
 import eus.ehu.karkrash.dataAccess.DataAccess;
 import eus.ehu.karkrash.domain.Office;
+import eus.ehu.karkrash.model.VehicleModel;
 
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -44,5 +46,10 @@ public class BlFacadeImplementation implements BlFacade {
     @Override
     public List<String> getBrands() {
         return dbManager.getBrands();
+    }
+
+    @Override
+    public List<VehicleModel> getAvailableVehicles(String brand, String model, Office office, LocalDate endDate) {
+        return dbManager.getAvailableVehicles(brand, model, office, endDate);
     }
 }
