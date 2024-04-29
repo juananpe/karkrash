@@ -11,6 +11,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -199,12 +200,20 @@ public class DataAccess {
     db.persist(client2);
   }
 
-
-
-
   public void close() {
     db.close();
     System.out.println("DataBase is closed");
   }
 
+  public List<Office> getOffices() {
+    return db.createQuery("SELECT o FROM Office o", Office.class).getResultList();
+  }
+
+  public List<String> getModels() {
+    return db.createQuery("SELECT DISTINCT v.vehicleType.model FROM Vehicle v", String.class).getResultList();
+  }
+
+  public List<String> getBrands() {
+    return db.createQuery("SELECT DISTINCT v.vehicleType.brand FROM Vehicle v", String.class).getResultList();
+  }
 }

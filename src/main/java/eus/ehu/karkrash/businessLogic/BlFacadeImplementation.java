@@ -2,6 +2,9 @@ package eus.ehu.karkrash.businessLogic;
 
 import eus.ehu.karkrash.configuration.Config;
 import eus.ehu.karkrash.dataAccess.DataAccess;
+import eus.ehu.karkrash.domain.Office;
+
+import java.util.List;
 
 
 /**
@@ -24,8 +27,22 @@ public class BlFacadeImplementation implements BlFacade {
         dbManager = new DataAccess();
         if (initialize)
             dbManager.initializeDB();
-        dbManager.close();
+        // dbManager.close();
     }
 
 
+    @Override
+    public List<Office> getOffices() {
+        return dbManager.getOffices();
+    }
+
+    @Override
+    public List<String> getModels() {
+        return dbManager.getModels();
+    }
+
+    @Override
+    public List<String> getBrands() {
+        return dbManager.getBrands();
+    }
 }

@@ -19,8 +19,6 @@ public class Office {
     @OneToMany(mappedBy = "office")
     private List<Tariff> tariffs;
 
-    // Getters and setters...
-
     public Long getId() {
         return id;
     }
