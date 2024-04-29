@@ -24,9 +24,6 @@ public class Tariff {
     @JoinColumn(name = "office_id")
     private Office office;
 
-    @OneToMany(mappedBy = "tariff")
-    private List<Renting> rentings;
-
     // Getters and setters...
 
     public Long getId() {
@@ -93,11 +90,4 @@ public class Tariff {
         this.office = office;
     }
 
-    public List<Renting> getRentings() {
-        return rentings;
-    }
-
-    public void setRentings(List<Renting> rentings) {
-        this.rentings = rentings;
-    }
 }

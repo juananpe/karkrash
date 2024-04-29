@@ -20,6 +20,8 @@ public interface BlFacade  {
 
     List<VehicleModel> getAvailableVehicles(String brand, String model, Office office, LocalDate endDate);
 
+    void rentVehicle(VehicleModel vehicle, Long days, Double pricePerDay);
+
     // ===== Define the public interface of the BL
 
 }

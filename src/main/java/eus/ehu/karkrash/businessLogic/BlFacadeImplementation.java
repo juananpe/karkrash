@@ -2,6 +2,7 @@ package eus.ehu.karkrash.businessLogic;
 
 import eus.ehu.karkrash.configuration.Config;
 import eus.ehu.karkrash.dataAccess.DataAccess;
+import eus.ehu.karkrash.domain.Client;
 import eus.ehu.karkrash.domain.Office;
 import eus.ehu.karkrash.model.VehicleModel;
 
@@ -14,8 +15,10 @@ import java.util.List;
  */
 public class BlFacadeImplementation implements BlFacade {
 
-    DataAccess dbManager;
-    Config config = Config.getInstance();
+    private DataAccess dbManager;
+    private Config config = Config.getInstance();
+    private Client currentUser;
+
 
     private static BlFacadeImplementation bl = new BlFacadeImplementation();
 
@@ -30,6 +33,8 @@ public class BlFacadeImplementation implements BlFacade {
         if (initialize)
             dbManager.initializeDB();
         // dbManager.close();
+
+        currentUser = dbManager.getClient("12345678A");
     }
 
 
@@ -51,5 +56,10 @@ public class BlFacadeImplementation implements BlFacade {
     @Override
     public List<VehicleModel> getAvailableVehicles(String brand, String model, Office office, LocalDate endDate) {
         return dbManager.getAvailableVehicles(brand, model, office, endDate);
+    }
+
+    @Override
+    public void rentVehicle(VehicleModel vehicle, Long days, Double pricePerDay) {
+        dbManager.rentVehicle(vehicle, days, pricePerDay, currentUser);
     }
 }

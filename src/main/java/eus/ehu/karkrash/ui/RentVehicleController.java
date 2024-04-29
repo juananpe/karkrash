@@ -67,9 +67,60 @@ public class RentVehicleController {
         // vehicles.add(new VehicleModel("1234ABC", "Audi", "A4", 50.0));
         // vehicles.add(new VehicleModel("5678DEF", "Renault", "Clio", 30.0));
 
+
+        // get selected row data
+        payButton.setOnAction(event -> {
+            // get the selected row
+            VehicleModel vehicle = vehiclesTableView.getSelectionModel().getSelectedItem();
+            Long days = getDays();
+            if (vehicle != null && days != null) {
+                // Call the BL to rent the vehicle
+                bl.rentVehicle(vehicle, days, vehicle.getPrice());
+                paymentInfoLabel.setText("Vehicle rented successfully");
+
+                // remove the rented vehicle from the list
+                vehicles.remove(vehicle);
+            }
+
+
+        });
+
+        // get row data
+        vehiclesTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, vehicle) -> {
+            if (vehicle == null) {
+                return;
+            }
+
+            Long days = getDays();
+            System.out.println("Days: " + days);
+
+            paymentInfoLabel.setText("You'll have to pay 20% of " + vehicle.getPrice() * days + "€ now");
+        });
+
         // Set the data into the TableView
         vehiclesTableView.setItems(vehicles);
 
+        // select first office
+        officeComboBox.getSelectionModel().selectFirst();
+        // select first brand and model
+        brandComboBox.getSelectionModel().selectFirst();
+        modelComboBox.getSelectionModel().selectFirst();
+        // select today's date + 3 days
+        endDatePicker.setValue(LocalDate.now().plusDays(3));
+
+
+    }
+
+    private Long getDays() {
+        LocalDate endDate = endDatePicker.getValue();
+        LocalDate now = LocalDate.now();
+        if (endDate == null || endDate.isBefore(now)) {
+            paymentInfoLabel.setText("Please select a valid end date");
+            return null;
+        }
+        // get number of days between now and end date
+        long days = now.until(endDate).getDays();
+        return days;
     }
 
     @FXML

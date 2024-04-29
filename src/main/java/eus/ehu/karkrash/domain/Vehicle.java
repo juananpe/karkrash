@@ -52,4 +52,8 @@ public class Vehicle {
     public void setRentings(List<Renting> rentings) {
         this.rentings = rentings;
     }
+
+    public void addRenting(Renting renting) {
+        this.rentings.add(renting);
+    }
 }
