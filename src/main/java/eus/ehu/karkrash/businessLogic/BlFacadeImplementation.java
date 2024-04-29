@@ -1,9 +1,7 @@
-package eus.ehu.template.businessLogic;
+package eus.ehu.karkrash.businessLogic;
 
-import eus.ehu.template.configuration.Config;
-import eus.ehu.template.dataAccess.DataAccess;
-
-import java.util.Calendar;
+import eus.ehu.karkrash.configuration.Config;
+import eus.ehu.karkrash.dataAccess.DataAccess;
 
 
 /**

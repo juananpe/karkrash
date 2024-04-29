@@ -1,4 +1,4 @@
-module eus.ehu.sharetrip {
+module eus.ehu.karkrash {
     requires javafx.controls;
     requires javafx.fxml;
 
@@ -7,7 +7,8 @@ module eus.ehu.sharetrip {
     requires org.hibernate.orm.core;
     requires org.apache.logging.log4j;
 
-    opens eus.ehu.template.domain to org.hibernate.orm.core;
-    opens eus.ehu.template.ui to javafx.fxml;
-    exports eus.ehu.template.ui;
+    opens eus.ehu.karkrash.model to javafx.base;
+    opens eus.ehu.karkrash.domain to org.hibernate.orm.core;
+    opens eus.ehu.karkrash.ui to javafx.fxml;
+    exports eus.ehu.karkrash.ui;
 }

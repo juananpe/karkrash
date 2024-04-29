@@ -1,6 +1,6 @@
-package eus.ehu.template;
+package eus.ehu.karkrash;
 
-import eus.ehu.template.dataAccess.DataAccess;
+import eus.ehu.karkrash.dataAccess.DataAccess;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
