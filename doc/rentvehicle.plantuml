@@ -38,7 +38,16 @@ Customer -> GUI : selects office, model, brand, enDate
 Customer -> GUI: clicks on Search
 GUI -> BLFacade : getAvailableVehicles(office, brand, model, endDate)
 BLFacade -> DataAccess : getAvailableVehicles(office, brand, model, endDate)
-DataAccess -> EntityManager : getAvailableVehicles(Q4)
+
+'alt brand and model not empty
+
+    DataAccess -> EntityManager : getAvailableVehicles(Q4)
+
+'else
+
+ '   DataAccess -> EntityManager : getAvailableVehicles(Q5)
+'end
+
 note right
     Q4: SELECT new VehicleModel(v.licensePlate, v.vehicleType.brand, v.vehicleType.model, t.pricePerDay)
             FROM Vehicle v, Tariff t
@@ -49,6 +58,13 @@ note right
             AND t.startDate <= :endDate
             AND t.endDate >= :endDate
 end note
+
+
+alt not vehicles available
+ GUI -> GUI: show error message
+
+end
+
 activate EntityManager
 loop for each AVAILABLE vehicle
 EntityManager -> VehicleModel: new (licensePlate, brand, model, pricePerDay)
