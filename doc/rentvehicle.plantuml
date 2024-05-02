@@ -59,16 +59,17 @@ note right
             AND t.endDate >= :endDate
 end note
 
+activate EntityManager
+loop for each AVAILABLE vehicle
+EntityManager -> VehicleModel: new (licensePlate, brand, model, pricePerDay)
+end loop
 
 alt not vehicles available
  GUI -> GUI: show error message
 
 end
 
-activate EntityManager
-loop for each AVAILABLE vehicle
-EntityManager -> VehicleModel: new (licensePlate, brand, model, pricePerDay)
-end loop
+
 activate VehicleModel
 deactivate EntityManager
 
