@@ -2,6 +2,7 @@ package eus.ehu.karkrash.domain;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -17,7 +18,7 @@ public class Vehicle {
     private VehicleType vehicleType;
 
     @OneToMany(mappedBy = "vehicle")
-    private List<Renting> rentings;
+    private List<Renting> rentings = new ArrayList<>();
 
     // Getters and setters...
 

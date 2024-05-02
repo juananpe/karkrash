@@ -239,15 +239,22 @@ public class DataAccess {
         LocalDate endDate = now.plusDays(days);
 
         Vehicle v = db.find(Vehicle.class, vehicle.getPlate());
+
+        db.getTransaction().begin();
+
         v.setState(VehicleState.RENTED);
         // add renting to the vehicle
         Renting r = new Renting(now, endDate, v, pricePerDay*days, client);
+        r.setPaid(pricePerDay*days*0.2);
         v.addRenting(r);
 
 
-        db.getTransaction().begin();
+
         db.persist(r);
-        db.persist(v);
+
+        // This is not necessary because the vehicle is linked to the renting and it will be persisted when the renting is persisted
+        // db.persist(v);
+
         db.getTransaction().commit();
     }
 

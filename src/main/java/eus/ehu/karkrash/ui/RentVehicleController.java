@@ -94,7 +94,7 @@ public class RentVehicleController {
             Long days = getDays();
             System.out.println("Days: " + days);
 
-            paymentInfoLabel.setText("You'll have to pay 20% of " + vehicle.getPrice() * days + "€ now");
+            paymentInfoLabel.setText("You'll have to pay 20% of " + vehicle.getPrice() * days + "€ = " +  vehicle.getPrice() * days * 0.20 + "€ now");
         });
 
         // Set the data into the TableView

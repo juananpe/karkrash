@@ -62,12 +62,16 @@ GUI -> BLFacade: rentVehicle(vehicleModel, days, vehicle.getPrice()
 BLFacade -> DataAccess: rentVehicle(vehicleModel, days, pricePerDay, currentUser)
 DataAccess -> EntityManager: db.find(Vehicle.class, vehicleModel.getPlate())
 EntityManager --> DataAccess: vehicle
+
+DataAccess -> EntityManager: getTransaction().begin()
 DataAccess -> Vehicle: setState(RENTED)
 DataAccess -> Renting: r = new(now, endDate, v, pricePerDay*days, client)
-DataAccess -> vehicle: addRenting(r)
-DataAccess -> EntityManager: getTransaction().begin()
+DataAccess -> Renting: setPaid(pricePerDay*days*0.2);
+DataAccess -> Vehicle: addRenting(r)
+
+
 DataAccess -> EntityManager: persist(r)
-DataAccess -> EntityManager: persist(v)
+' DataAccess -> EntityManager: persist(v)  (Not Needed)
 DataAccess -> EntityManager: getTransaction().commit()
 
 

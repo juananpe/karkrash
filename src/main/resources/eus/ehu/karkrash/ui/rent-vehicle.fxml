@@ -47,7 +47,7 @@
         <TableColumn fx:id="plateColumn" text="Plate" />
         <TableColumn fx:id="brandColumn" text="Brand" />
         <TableColumn fx:id="modelColumn" text="Model" />
-        <TableColumn fx:id="priceColumn" text="Price" />
+        <TableColumn fx:id="priceColumn" text="PricePerDay" />
     </columns>
 </TableView>
 

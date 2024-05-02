@@ -9,15 +9,14 @@ import java.util.Date;
 public class Renting {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long code;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date starting;
     @Temporal(TemporalType.TIMESTAMP)
     private Date expectedReturning;
-    private Boolean paid;
+    private Double paid;
     private Double totalToPay;
-    private String code;
     private Integer initialKm;
     private Integer finalKm;
     @Temporal(TemporalType.TIMESTAMP)
@@ -46,8 +45,8 @@ public class Renting {
     // Getters and setters...
 
 
-    public Long getId() {
-        return id;
+    public Long getCode() {
+        return code;
     }
 
     public Date getStarting() {
@@ -58,16 +57,12 @@ public class Renting {
         return expectedReturning;
     }
 
-    public Boolean getPaid() {
+    public Double getPaid() {
         return paid;
     }
 
     public Double getTotalToPay() {
         return totalToPay;
-    }
-
-    public String getCode() {
-        return code;
     }
 
     public Integer getInitialKm() {
@@ -90,8 +85,8 @@ public class Renting {
         return vehicle;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setCode(Long id) {
+        this.code = id;
     }
 
     public void setStarting(Date starting) {
@@ -102,16 +97,12 @@ public class Renting {
         this.expectedReturning = expectedReturning;
     }
 
-    public void setPaid(Boolean paid) {
+    public void setPaid(Double paid) {
         this.paid = paid;
     }
 
     public void setTotalToPay(Double totalToPay) {
         this.totalToPay = totalToPay;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 
     public void setInitialKm(Integer initialKm) {
